@@ -27,6 +27,7 @@ class _TabNavigatorState extends State<TabNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: PageStorage(
           bucket: bucket,
           child: currentScreen,

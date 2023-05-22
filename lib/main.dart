@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 void main(List<String> args) {
   Get.put(HomeStore());
 
-  runApp(const MaterialApp(
+  runApp(const GetMaterialApp(
     debugShowCheckedModeBanner: false,
     home: TabNavigator(),
   ));

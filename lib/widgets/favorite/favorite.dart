@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/utils.dart';
+
 class Favorite extends StatelessWidget {
   const Favorite({super.key});
 
@@ -23,7 +25,7 @@ class Favorite extends StatelessWidget {
                 height: 100,
                 fit: BoxFit.fitWidth,
               ),
-            )
+            ),
           ],
         ),
       ),

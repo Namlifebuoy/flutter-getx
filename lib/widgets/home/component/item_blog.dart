@@ -1,23 +1,33 @@
+import 'package:firstgetx/shared/type/blog.dart';
+import 'package:firstgetx/widgets/home/screen/blog_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../shared/store/home.dart';
 
 class ItemBlog extends StatelessWidget {
-  const ItemBlog({
+  ItemBlog({
     super.key,
     required this.width,
     required this.item,
   });
 
+  final homeStore = Get.put(HomeStore());
   final double width;
-  final dynamic item;
+  final Blog item;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: width - 32,
-          height: 108,
-          child: Container(
+    return InkWell(
+      onTap: () async {
+        await homeStore.getDetailBlog(item.id);
+        Get.to(() => const BlogDetailScreen());
+      },
+      child: Column(
+        children: [
+          SizedBox(
+            width: width - 32,
+            height: 108,
             child: Stack(
               children: [
                 Positioned(
@@ -25,19 +35,19 @@ class ItemBlog extends StatelessWidget {
                   top: 0,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFFFFFFF),
+                      color: const Color(0xFFFFFFFF),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(0.2),
                             spreadRadius: -2,
                             blurRadius: 10,
-                            offset: Offset(-5, -5)),
+                            offset: const Offset(-5, -5)),
                         BoxShadow(
                             color: Colors.grey.withOpacity(0.3),
                             spreadRadius: -2,
                             blurRadius: 10,
-                            offset: Offset(5, 5))
+                            offset: const Offset(5, 5))
                       ],
                     ),
                     width: (303 / 343) * (width - 32),
@@ -47,15 +57,15 @@ class ItemBlog extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(width: 44),
+                        const SizedBox(width: 44),
                         Flexible(
                           child: Text(
                             item.title,
-                            style: TextStyle(fontSize: 16, height: 1.5),
+                            style: const TextStyle(fontSize: 16, height: 1.5),
                             //Vì fontSize của text là 16, nên lineHeight 24 suy ra height = 24/16 = 1.5
                           ),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                       ],
                     ),
                   ),
@@ -65,7 +75,7 @@ class ItemBlog extends StatelessWidget {
                   bottom: 0,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFFDEE3EF),
+                      color: const Color(0xFFDEE3EF),
                       borderRadius: BorderRadius.circular(40),
                     ),
                     width: 80,
@@ -87,11 +97,11 @@ class ItemBlog extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        SizedBox(
-          height: 12,
-        ),
-      ],
+          const SizedBox(
+            height: 12,
+          ),
+        ],
+      ),
     );
   }
 }
