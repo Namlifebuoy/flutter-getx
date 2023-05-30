@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firstgetx/widgets/antibug/antibug.dart';
 import 'package:firstgetx/widgets/detect/detect.dart';
 import 'package:firstgetx/widgets/home/home.dart';
@@ -6,8 +7,8 @@ import 'package:firstgetx/widgets/setting/setting.dart';
 import 'package:flutter/material.dart';
 
 class TabNavigator extends StatefulWidget {
-  const TabNavigator({super.key});
-
+  const TabNavigator({super.key, required this.cameras});
+  final List<CameraDescription> cameras;
   @override
   State<TabNavigator> createState() => _TabNavigatorState();
 }
@@ -16,7 +17,7 @@ class _TabNavigatorState extends State<TabNavigator> {
   int currentTab = 0;
   final List<Widget> screens = [
     const Favorite(),
-    Home(),
+    const Home(),
     const AntiBug(),
     const Setting()
   ];
@@ -35,7 +36,7 @@ class _TabNavigatorState extends State<TabNavigator> {
         floatingActionButton: InkWell(
           onTap: () {
             setState(() {
-              currentScreen = const Detect();
+              currentScreen = Detect(cameras: widget.cameras);
               currentTab = 4;
             });
           },

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:firstgetx/shared/store/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../shared/store/home.dart';
 import '../../../utils/utils.dart';
 import '../component/item_list_category.dart';
+import 'bug_detail.dart';
 
 class ListDetailCategory extends StatefulWidget {
   const ListDetailCategory({super.key});
@@ -17,13 +19,10 @@ class ListDetailCategory extends StatefulWidget {
 class _ListDetailCategoryState extends State<ListDetailCategory> {
   // final TextEditingController _controller = TextEditingController();
 
-  Timer searchOnStoppedTyping = Timer(Duration(days: 365), () {});
+  Timer searchOnStoppedTyping = Timer(const Duration(days: 365), () {});
 
   void fetchData(String text, HomeStore homeStore) {
     const duration = Duration(milliseconds: 200);
-    // if (searchOnStoppedTyping != null) {
-    //   setState(() => searchOnStoppedTyping.cancel()); // clear timer
-    // }
     setState(() => searchOnStoppedTyping.cancel());
     setState(
       () => searchOnStoppedTyping = Timer(duration, () {
@@ -37,6 +36,7 @@ class _ListDetailCategoryState extends State<ListDetailCategory> {
   @override
   Widget build(BuildContext context) {
     final homeStore = Get.put(HomeStore());
+    final favoriteStore = Get.put(FavoriteStore());
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -131,11 +131,23 @@ class _ListDetailCategoryState extends State<ListDetailCategory> {
                     builder: (_) => ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: homeStore.arrCurrentCategory.length,
+                        itemCount: homeStore.arrCurrentCategory.items.length,
                         itemBuilder: (context, index) {
-                          if (homeStore.arrCurrentCategory.isNotEmpty) {
+                          if (homeStore.arrCurrentCategory.items.isNotEmpty) {
                             return ItemListCategory(
-                                item: homeStore.arrCurrentCategory[index]);
+                              item: homeStore.arrCurrentCategory.items[index],
+                              onPressItem: () async {
+                                await homeStore.getDetailBug(homeStore
+                                    .arrCurrentCategory.items[index].id);
+                                favoriteStore.addToHistory(
+                                    homeStore.arrCurrentCategory.items[index]);
+                                Get.to(() => const BugDetail());
+                              },
+                              onFavorite: () {
+                                favoriteStore.addToFavorite(
+                                    homeStore.arrCurrentCategory.items[index]);
+                              },
+                            );
                           }
                           return null;
                         }),

@@ -1,24 +1,8 @@
-import 'dart:ffi';
-
-import 'package:get/get.dart';
-
 class BlogDetail {
-  // id?: number;
-  // title?: string;
-  // image_url?: string;
-  // tags?: any;
-  // body?: [
-  //   {
-  //     type: string;
-  //     content: string;
-  //   },
-  // ];
-  // created_at?: string;
-  // updated_at?: string;
   int id;
   String title;
   String image_url;
-  dynamic body;
+  List<BodyBlogDetail> body;
   dynamic tags;
   String created_at;
   String updated_at;
